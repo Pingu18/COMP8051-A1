@@ -32,6 +32,7 @@
     
     UIPinchGestureRecognizer * pinchRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchResponder:)];
     
+    UIRotationGestureRecognizer * rotateRecognizer = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(rotateResponder:)];
     
     UIButton *button1 = [UIButton buttonWithType:UIButtonTypeSystem];
     [button1 setTitle:@"Reset Cube" forState:UIControlStateNormal];
@@ -52,6 +53,7 @@
     [self.view addGestureRecognizer:tapRecognizer];
     [self.view addGestureRecognizer:panRecognizer];
     [self.view addGestureRecognizer:pinchRecognizer];
+    [self.view addGestureRecognizer:rotateRecognizer];
     [self.view addSubview:button1];
     [self.view addSubview:cubePosTitle];
     [self.view addSubview:cubeRotTitle];
@@ -69,30 +71,42 @@
 
 - (void)tapResponder: (UITapGestureRecognizer *) sender
 {
+    //Double tap will start/stop rotation
     glesRenderer.isRotating = !glesRenderer.isRotating;
     NSLog(glesRenderer.isRotating ? @"rotating" : @"not rotating");
 }
 
 - (void)panResponder: (UIPanGestureRecognizer *) sender
 {
-    if(!glesRenderer.isRotating && sender.numberOfTouches == 1)
+    if (!glesRenderer.isRotating && sender.numberOfTouches == 2)
     {
-        NSLog(@"Single finger drag");
-    }
-    else if (!glesRenderer.isRotating && sender.numberOfTouches == 2)
-    {
+        //Double finger drag will move the cube around
         NSLog(@"Double finger drag");
     }
 }
 
 - (void)pinchResponder: (UIPinchGestureRecognizer *) sender
 {
+    //Pinching will zoom in and out
     if (!glesRenderer.isRotating) {
-        NSLog(@"Pinch");
+        float scale = [sender scale];
+        NSLog(@"Scale %.1f", scale);
+    }
+}
+
+- (void)rotateResponder: (UIRotationGestureRecognizer *) sender
+{
+    //Single finger drag will rotate
+    if (!glesRenderer.isRotating && sender.numberOfTouches == 1)
+    {
+        float rotation = GLKMathRadiansToDegrees([sender rotation]);
+        //glesRenderer.rotAngle = rotation;
+        NSLog(@"Rotation %.1f", rotation);
     }
 }
 
 - (void)button1Pressed: (UIButton *) button1 {
+    //Pressing the button will reset cube position and orientation
     NSLog(@"Reset cube");
 }
 
