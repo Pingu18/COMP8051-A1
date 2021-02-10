@@ -22,7 +22,11 @@
     
     tapRecognizer.numberOfTapsRequired = 2;
     tapRecognizer.numberOfTouchesRequired = 1;
+    
+    UIPanGestureRecognizer * panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panResponder:)];
+    
     [self.view addGestureRecognizer:tapRecognizer];
+    [self.view addGestureRecognizer:panRecognizer];
     
     glesRenderer = [[Renderer alloc] init];
     GLKView *view = (GLKView *)self.view;
@@ -44,6 +48,18 @@
 {
     glesRenderer.isRotating = !glesRenderer.isRotating;
     NSLog(glesRenderer.isRotating ? @"rotating" : @"not rotating");
+}
+
+- (void)panResponder: (UIPanGestureRecognizer *) sender
+{
+    if(sender.numberOfTouches == 1)
+    {
+        NSLog(@"Single finger drag");
+    }
+    else if (sender.numberOfTouches == 2)
+    {
+        NSLog(@"Double finger drag");
+    }
 }
 
 
