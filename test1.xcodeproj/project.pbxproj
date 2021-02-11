@@ -20,6 +20,8 @@
 		E8EC7E6C25D37D9600FEE9EF /* Shader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = E8EC7E6825D37D9600FEE9EF /* Shader.fsh */; };
 		E8EC7E6D25D37D9600FEE9EF /* crate.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E8EC7E6925D37D9600FEE9EF /* crate.jpg */; };
 		E8EC7E6E25D37D9600FEE9EF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8EC7E6A25D37D9600FEE9EF /* ViewController.swift */; };
+		E8F85CB925D4D71500E8B87C /* MixTest.mm in Sources */ = {isa = PBXBuildFile; fileRef = E8F85CB525D4D71400E8B87C /* MixTest.mm */; };
+		E8F85CBA25D4D71500E8B87C /* CPlusPlus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E8F85CB825D4D71400E8B87C /* CPlusPlus.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +47,10 @@
 		E8EC7E6925D37D9600FEE9EF /* crate.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = crate.jpg; path = ../../../Downloads/glesbasicfiles/crate.jpg; sourceTree = "<group>"; };
 		E8EC7E6A25D37D9600FEE9EF /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = ../../../Downloads/glesbasicfiles/ViewController.swift; sourceTree = "<group>"; };
 		E8EC7E6B25D37D9600FEE9EF /* Renderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Renderer.h; path = ../../../Downloads/glesbasicfiles/Renderer.h; sourceTree = "<group>"; };
+		E8F85CB525D4D71400E8B87C /* MixTest.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MixTest.mm; sourceTree = "<group>"; };
+		E8F85CB625D4D71400E8B87C /* MixTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MixTest.h; sourceTree = "<group>"; };
+		E8F85CB725D4D71400E8B87C /* CPlusPlus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPlusPlus.h; sourceTree = "<group>"; };
+		E8F85CB825D4D71400E8B87C /* CPlusPlus.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CPlusPlus.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +83,10 @@
 		E8EC7E4325D37C4C00FEE9EF /* test1 */ = {
 			isa = PBXGroup;
 			children = (
+				E8F85CB825D4D71400E8B87C /* CPlusPlus.cpp */,
+				E8F85CB725D4D71400E8B87C /* CPlusPlus.h */,
+				E8F85CB625D4D71400E8B87C /* MixTest.h */,
+				E8F85CB525D4D71400E8B87C /* MixTest.mm */,
 				E8EC7E6925D37D9600FEE9EF /* crate.jpg */,
 				E8EC7E6B25D37D9600FEE9EF /* Renderer.h */,
 				E8EC7E6825D37D9600FEE9EF /* Shader.fsh */,
@@ -175,10 +185,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E8F85CB925D4D71500E8B87C /* MixTest.mm in Sources */,
 				E8EC7E6425D37D7800FEE9EF /* Renderer.mm in Sources */,
 				E8EC7E4C25D37C4C00FEE9EF /* ViewController.m in Sources */,
 				E8EC7E4625D37C4C00FEE9EF /* AppDelegate.m in Sources */,
 				E8EC7E6525D37D7800FEE9EF /* GLESRenderer.cpp in Sources */,
+				E8F85CBA25D4D71500E8B87C /* CPlusPlus.cpp in Sources */,
 				E8EC7E6E25D37D9600FEE9EF /* ViewController.swift in Sources */,
 				E8EC7E5725D37C4C00FEE9EF /* main.m in Sources */,
 				E8EC7E4925D37C4C00FEE9EF /* SceneDelegate.m in Sources */,

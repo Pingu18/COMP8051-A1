@@ -22,7 +22,7 @@
     GLKView *view = (GLKView *)self.view;
     [glesRenderer setup:view];
     [glesRenderer loadModels];
-    //theObject = MixTest()
+    NSObject *theObj = [[MixTest alloc] init];
     
     UITapGestureRecognizer * tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapResponder:)];
     
@@ -32,8 +32,6 @@
     UIPanGestureRecognizer * panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panResponder:)];
     
     UIPinchGestureRecognizer * pinchRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchResponder:)];
-    
-    UIRotationGestureRecognizer * rotateRecognizer = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(rotateResponder:)];
     
     UIButton *button1 = [UIButton buttonWithType:UIButtonTypeSystem];
     [button1 setTitle:@"Reset Cube" forState:UIControlStateNormal];
@@ -49,18 +47,19 @@
     
     UILabel *cubePosTitle = [[UILabel alloc] initWithFrame:CGRectMake(10, 480, 200, 40)];
     [cubePosTitle setBackgroundColor:[UIColor clearColor]];
-    [cubePosTitle setText:@"Position: "];
+    NSString *posText = [NSString stringWithFormat:@"Position: %.1f, %.1f, %.1f", glesRenderer.posX, glesRenderer.posY, glesRenderer.zoomScale];
+    cubePosTitle.text = posText;
     [cubePosTitle setTextColor:[UIColor whiteColor]];
     
     UILabel *cubeRotTitle = [[UILabel alloc] initWithFrame:CGRectMake(10, 500, 200, 40)];
     [cubeRotTitle setBackgroundColor:[UIColor clearColor]];
-    [cubeRotTitle setText:@"Rotation: "];
+    NSString *rotText = [NSString stringWithFormat:@"Rotation: %.1f, %.1f, %.1f", glesRenderer.rotVecX, glesRenderer.rotVecY * glesRenderer.rotAngle,  glesRenderer.rotVecZ];
+    cubeRotTitle.text = rotText;
     [cubeRotTitle setTextColor:[UIColor whiteColor]];
     
     [self.view addGestureRecognizer:tapRecognizer];
     [self.view addGestureRecognizer:panRecognizer];
     [self.view addGestureRecognizer:pinchRecognizer];
-    [self.view addGestureRecognizer:rotateRecognizer];
     [self.view addSubview:button1];
     [self.view addSubview:button2];
     [self.view addSubview:cubePosTitle];
@@ -86,10 +85,41 @@
 
 - (void)panResponder: (UIPanGestureRecognizer *) sender
 {
+    if (!glesRenderer.isRotating && sender.numberOfTouches == 1)
+    {
+        //Single finger drag will rotate about x/y axis
+        CGPoint velocity = [sender velocityInView:self.view];
+        
+        if (fabs(velocity.x) > fabs(velocity.y))
+        {
+            //rotate
+            glesRenderer.rotVecX = 0.0;
+            glesRenderer.rotVecY = 1.0;
+            glesRenderer.rotVecZ = 0.0;
+            glesRenderer.rotAngle += 0.001f * velocity.x;
+            if (glesRenderer.rotAngle >= 360.0f)
+                glesRenderer.rotAngle = 0.0f;
+        }
+        if (fabs(velocity.y) > fabs(velocity.x))
+        {
+            glesRenderer.rotVecX = 1.0;
+            glesRenderer.rotVecY = 0.0;
+            glesRenderer.rotVecZ = 0.0;
+            glesRenderer.rotAngle += 0.001f * velocity.y;
+            if (glesRenderer.rotAngle >= 360.0f)
+                glesRenderer.rotAngle = 0.0f;
+        }
+        NSLog(@"X Velocity: %.1f, Y Velocity: %.f", velocity.x, velocity.y);
+    }
     if (!glesRenderer.isRotating && sender.numberOfTouches == 2)
     {
         //Double finger drag will move the cube around
-        NSLog(@"Double finger drag");
+        CGPoint velocity = [sender velocityInView:self.view];
+        
+        glesRenderer.posX += (velocity.x * 0.0005f);
+        glesRenderer.posY += (velocity.y * -0.0005f);
+        
+        NSLog(@"X Vel: %.1f, Y Vel: %.1f", velocity.x, velocity.y);
     }
 }
 
@@ -98,28 +128,27 @@
     //Pinching will zoom in and out
     if (!glesRenderer.isRotating) {
         float scale = [sender scale];
-        NSLog(@"Scale %.1f", scale);
-    }
-}
-
-- (void)rotateResponder: (UIRotationGestureRecognizer *) sender
-{
-    //Single finger drag will rotate
-    if (!glesRenderer.isRotating && sender.numberOfTouches == 1)
-    {
-        float rotation = GLKMathRadiansToDegrees([sender rotation]);
-        //glesRenderer.rotAngle = rotation;
-        NSLog(@"Rotation %.1f", rotation);
+        scale = (5 - scale);
+        glesRenderer.zoomScale = -scale;
+        NSLog(@"Zoom %.1f", scale);
     }
 }
 
 - (void)button1Pressed: (UIButton *) button1 {
     //Pressing the button will reset cube position and orientation
+    glesRenderer.posX = 0.0f;
+    glesRenderer.posY = 0.0f;
+    glesRenderer.zoomScale = -5.0f;
+    glesRenderer.rotVecX = 0.0f;
+    glesRenderer.rotVecY = 1.0f;
+    glesRenderer.rotVecZ = 0.0f;
+    glesRenderer.rotAngle = 0.0f;
+    glesRenderer.isRotating = true;
     NSLog(@"Reset cube");
 }
 
 - (void)button2Pressed: (UIButton *) button2 {
-    NSLog(@"Value: ");
+    NSLog(@"Value: " );
 }
 
 @end
