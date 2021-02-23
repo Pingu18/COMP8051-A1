@@ -7,7 +7,7 @@
 //
 
 #import "MixTest.h"
-#include "CPlusPlus.h"
+#include "CPlusPlus.hpp"
 
 struct CPlusPlusClass
 {

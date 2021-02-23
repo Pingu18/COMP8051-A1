@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Borna Noureddin. All rights reserved.
 //
 
-#include "CPlusPlus.h"
+#include "CPlusPlus.hpp"
 
 int CPlusPlus::GetVal()
 {
